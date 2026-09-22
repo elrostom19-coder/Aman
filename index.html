@@ -1,40 +1,356 @@
-<!DOCTYPE html>
+html = r'''<!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Smart City - نظام متابعة الشكاوى والتواصل مع العمال</title>
+<title>منصة التعليم الفني المصري 🎓</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;600;700;900&display=swap" rel="stylesheet">
 <style>
 :root{
-  --primary:#2563eb;--primary-dark:#1d4ed8;--success:#10b981;--danger:#ef4444;
-  --warning:#f59e0b;--dark:#1f2937;--gray-600:#6b7280;--gray-400:#9ca3af;
-  --gray-200:#e5e7eb;--gray-100:#f3f4f6;--white:#fff;
-  --shadow-sm:0 1px 3px rgba(0,0,0,.08);--shadow-md:0 4px 12px rgba(0,0,0,.1);
-  --shadow-lg:0 10px 25px rgba(0,0,0,.12);
-  --r:10px;--tr:all .25s ease;
+  --bg:#0b1020; --bg2:#101830; --card:#151f3a; --card2:#1b2748;
+  --accent:#22d3ee; --accent2:#f59e0b; --green:#34d399; --red:#f87171;
+  --text:#e8ecf8; --muted:#94a3c7; --border:rgba(148,163,199,.15);
 }
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:'Segoe UI',Tahoma,sans-serif;background:var(--gray-100);color:var(--dark);line-height:1.6}
-button{font-family:inherit;cursor:pointer}
-input,select,textarea{font-family:inherit}
+*{box-sizing:border-box;margin:0;padding:0}
+body{font-family:'Cairo',sans-serif;background:radial-gradient(1200px 600px at 80% -10%,rgba(34,211,238,.12),transparent),radial-gradient(900px 500px at 10% 110%,rgba(245,158,11,.10),transparent),var(--bg);color:var(--text);min-height:100vh}
+a{color:inherit;text-decoration:none}
+header{position:sticky;top:0;z-index:50;background:rgba(11,16,32,.85);backdrop-filter:blur(12px);border-bottom:1px solid var(--border)}
+.header-in{max-width:1200px;margin:auto;display:flex;align-items:center;gap:14px;padding:12px 20px;flex-wrap:wrap}
+.logo{font-weight:900;font-size:1.25rem;display:flex;align-items:center;gap:8px;cursor:pointer}
+.logo .badge{background:linear-gradient(135deg,var(--accent),#3b82f6);color:#04202b;padding:2px 10px;border-radius:20px;font-size:.75rem}
+.search{flex:1;min-width:220px;display:flex;background:var(--card);border:1px solid var(--border);border-radius:12px;overflow:hidden}
+.search input{flex:1;background:transparent;border:0;outline:0;color:var(--text);padding:10px 14px;font-family:inherit;font-size:.95rem}
+.search button{background:var(--accent);border:0;color:#04202b;font-weight:700;padding:0 18px;cursor:pointer;font-family:inherit}
+main{max-width:1200px;margin:auto;padding:24px 20px 80px}
+.hero{text-align:center;padding:36px 10px 28px}
+.hero h1{font-size:clamp(1.6rem,4vw,2.6rem);font-weight:900}
+.hero h1 span{background:linear-gradient(90deg,var(--accent),var(--accent2));-webkit-background-clip:text;background-clip:text;color:transparent}
+.hero p{color:var(--muted);margin-top:10px;max-width:720px;margin-inline:auto;line-height:1.9}
+.stats{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.stat{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:12px 22px;text-align:center;min-width:130px}
+.stat b{font-size:1.5rem;color:var(--accent);display:block}
+.stat small{color:var(--muted)}
+.sec-title{font-weight:900;font-size:1.3rem;margin:34px 0 16px;display:flex;align-items:center;gap:10px}
+.sec-title::after{content:'';flex:1;height:1px;background:var(--border)}
+.dept-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px}
+.dept{background:linear-gradient(160deg,var(--card),var(--bg2));border:1px solid var(--border);border-radius:18px;padding:20px;cursor:pointer;transition:.25s;position:relative;overflow:hidden}
+.dept:hover{transform:translateY(-4px);border-color:var(--accent);box-shadow:0 12px 30px rgba(34,211,238,.12)}
+.dept .ic{font-size:2rem}
+.dept h3{font-weight:900;margin:10px 0 6px}
+.dept p{color:var(--muted);font-size:.88rem;line-height:1.7}
+.dept .tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:12px}
+.dept .tags span{background:rgba(34,211,238,.12);color:var(--accent);font-size:.72rem;padding:3px 10px;border-radius:20px}
+.dept .arrow{position:absolute;left:16px;top:20px;color:var(--muted);transition:.25s}
+.dept:hover .arrow{color:var(--accent);transform:translateX(-4px)}
+.spec-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(230px,1fr));gap:14px}
+.spec{background:var(--card);border:1px solid var(--border);border-radius:14px;padding:18px;cursor:pointer;transition:.2s;display:flex;flex-direction:column;gap:8px}
+.spec:hover{border-color:var(--accent2);transform:translateY(-3px)}
+.spec .ic{font-size:1.7rem}
+.spec h4{font-weight:800;font-size:1rem}
+.spec small{color:var(--muted)}
+.spec .count{color:var(--green);font-size:.78rem;font-weight:700}
+.back{display:inline-flex;align-items:center;gap:6px;color:var(--accent);cursor:pointer;font-weight:700;margin-bottom:18px}
+.back:hover{text-decoration:underline}
+.classroom{display:grid;grid-template-columns:1.6fr 1fr;gap:20px;align-items:start}
+@media(max-width:900px){.classroom{grid-template-columns:1fr}}
+.player-wrap{background:#000;border-radius:16px;overflow:hidden;border:1px solid var(--border);aspect-ratio:16/9;position:relative}
+.player-wrap iframe{width:100%;height:100%;border:0}
+.player-empty{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:10px;background:var(--bg2);color:var(--muted);text-align:center;padding:20px}
+.panel{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:16px;max-height:520px;display:flex;flex-direction:column}
+.panel h4{font-weight:900;margin-bottom:12px;display:flex;justify-content:space-between;align-items:center}
+.panel h4 small{color:var(--muted);font-weight:400}
+.plist{overflow-y:auto;flex:1;display:flex;flex-direction:column;gap:8px;padding-left:4px}
+.pitem{display:flex;gap:10px;align-items:center;background:var(--card2);border:1px solid transparent;border-radius:10px;padding:9px 11px;cursor:pointer;transition:.15s;text-align:right}
+.pitem:hover{border-color:var(--accent)}
+.pitem.active{border-color:var(--accent2);background:rgba(245,158,11,.12)}
+.pitem .num{background:rgba(34,211,238,.15);color:var(--accent);min-width:26px;height:26px;border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:.75rem;font-weight:800}
+.pitem .t{flex:1;font-size:.86rem;line-height:1.5}
+.pitem .ext{color:var(--muted);font-size:.85rem}
+.empty{background:var(--card2);border:1px dashed var(--border);border-radius:12px;padding:22px;text-align:center;color:var(--muted);font-size:.9rem;line-height:1.9}
+.addbox{margin-top:14px;background:var(--card2);border:1px solid var(--border);border-radius:12px;padding:12px}
+.addbox label{font-size:.8rem;color:var(--muted);display:block;margin-bottom:6px}
+.addrow{display:flex;gap:8px}
+.addrow input{flex:1;background:var(--bg);border:1px solid var(--border);border-radius:9px;color:var(--text);padding:9px 12px;font-family:inherit;font-size:.85rem;outline:0;min-width:0}
+.addrow input:focus{border-color:var(--accent)}
+.addrow button{background:var(--green);color:#03251a;border:0;border-radius:9px;padding:9px 16px;font-weight:800;cursor:pointer;font-family:inherit;white-space:nowrap}
+.addrow button.pl{background:var(--accent2);color:#3a2503}
+.msg{font-size:.8rem;margin-top:8px;min-height:1.2em}
+.msg.ok{color:var(--green)}.msg.err{color:var(--red)}
+.grade-tabs{display:flex;gap:8px;margin:16px 0 20px;flex-wrap:wrap}
+.grade-tabs button{background:var(--card);border:1px solid var(--border);color:var(--text);border-radius:20px;padding:7px 18px;font-family:inherit;font-weight:700;cursor:pointer;transition:.15s;font-size:.85rem}
+.grade-tabs button.on{background:linear-gradient(90deg,var(--accent),#3b82f6);color:#04202b;border-color:transparent}
+.hint{background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.25);border-radius:12px;padding:12px 16px;font-size:.85rem;color:#a7f3d0;margin-top:14px;line-height:1.8}
+footer{border-top:1px solid var(--border);padding:22px;text-align:center;color:var(--muted);font-size:.85rem}
+.hidden{display:none!important}
+mark{background:rgba(245,158,11,.35);color:inherit;border-radius:3px;padding:0 2px}
+</style>
+</head>
+<body>
 
-/* ===== شريط علوي ===== */
-.topbar{background:linear-gradient(135deg,var(--primary),var(--primary-dark));color:#fff;padding:.9rem 1.5rem;display:flex;justify-content:space-between;align-items:center;position:sticky;top:0;z-index:100;box-shadow:var(--shadow-md)}
-.topbar h1{font-size:1.2rem;display:flex;align-items:center;gap:.5rem}
-.topbar .tabs{display:flex;gap:.4rem;flex-wrap:wrap}
-.tab-btn{background:rgba(255,255,255,.15);border:none;color:#fff;padding:.5rem 1rem;border-radius:20px;font-size:.85rem;transition:var(--tr)}
-.tab-btn:hover{background:rgba(255,255,255,.3)}
-.tab-btn.active{background:#fff;color:var(--primary);font-weight:600}
-.tab-btn .badge{background:var(--danger);color:#fff;font-size:.7rem;border-radius:10px;padding:.05rem .4rem;margin-right:.3rem}
+<header>
+  <div class="header-in">
+    <div class="logo" onclick="goHome()">🎓 منصة التعليم الفني <span class="badge">مصر</span></div>
+    <div class="search">
+      <input id="q" placeholder="ابحث عن قسم أو تخصص... (مثال: محاسبة، ميكانيكا، فنون مطبخ)" oninput="renderHome(this.value)">
+      <button onclick="renderHome(document.getElementById('q').value)">🔍</button>
+    </div>
+  </div>
+</header>
 
-/* ===== التبويبات ===== */
-.tab{display:none;padding:1.5rem;max-width:1100px;margin:0 auto;animation:fadeIn .3s}
-.tab.active{display:block}
-@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+<main>
+  <!-- HOME -->
+  <section id="home">
+    <div class="hero">
+      <h1>اتعلم <span>التعليم الفني</span> كله... في مكان واحد 🚀</h1>
+      <p>كل أقسام الثانوية الفنية في مصر — صناعي، تجاري، زراعي، سياحي، تمريض — مع بلي ليست فيديوهات لكل تخصص. اختار قسمك، اختار تخصصك، واضغط على اسم أي فيديو يشتغل جوه المنصة على طول. كمان تقدر تضيف أي رابط فيديو أو قائمة تشغيل من يوتيوب وهيتسجل عندك تلقائيًا.</p>
+      <div class="stats">
+        <div class="stat"><b id="stDepts">0</b><small>قسم رئيسي</small></div>
+        <div class="stat"><b id="stSpecs">0</b><small>تخصص</small></div>
+        <div class="stat"><b id="stVids">0</b><small>فيديو في البلي ليستات</small></div>
+        <div class="stat"><b>100%</b><small>مجاني 🇪🇬</small></div>
+      </div>
+    </div>
+    <h2 class="sec-title">🏫 الأقسام الرئيسية</h2>
+    <div class="dept-grid" id="deptGrid"></div>
+  </section>
 
-.section-title{font-size:1.3rem;margin-bottom:1.2rem;display:flex;align-items:center;gap:.5rem}
-.section-title::before{content:'';width:4px;height:22px;background:var(--primary);border-radius:2px}
+  <!-- DEPARTMENT -->
+  <section id="deptView" class="hidden">
+    <span class="back" onclick="goHome()">→ رجوع للأقسام</span>
+    <h2 class="sec-title" id="deptTitle"></h2>
+    <div class="grade-tabs" id="gradeTabs"></div>
+    <div class="spec-grid" id="specGrid"></div>
+  </section>
 
+  <!-- CLASSROOM -->
+  <section id="classView" class="hidden">
+    <span class="back" onclick="goDept()">→ رجوع للتخصصات</span>
+    <h2 class="sec-title" id="classTitle"></h2>
+    <div class="classroom">
+      <div class="player-wrap">
+        <div class="player-empty" id="playerEmpty">
+          <div style="font-size:3rem">🎬</div>
+          <div><b>اختار فيديو من البلي ليست</b><br>أو ضيف رابط جديد وهيشتغل هنا جوه المنصة</div>
+        </div>
+        <iframe id="yt" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+      </div>
+      <div class="panel">
+        <h4>📋 بلي ليست التخصص <small id="plCount"></small></h4>
+        <div class="plist" id="plist"></div>
+        <div class="addbox">
+          <label>➕ ضيف فيديو — الصق رابط أي فيديو من يوتيوب:</label>
+          <div class="addrow">
+            <input id="vidUrl" placeholder="https://www.youtube.com/watch?v=...">
+            <button onclick="addVideo()">إضافة</button>
+          </div>
+          <label style="margin-top:10px">🎞️ أو ضيف قائمة تشغيل كاملة:</label>
+          <div class="addrow">
+            <input id="plUrl" placeholder="https://www.youtube.com/playlist?list=PL...">
+            <button class="pl" onclick="addPlaylist()">إضافة القائمة</button>
+          </div>
+          <div class="msg" id="addMsg"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hint">💡 <b>إزاي تستخدمها؟</b> افتح يوتيوب → اعمل بحث عن منهج تخصصك (مثال: "شرح محاسبة أولى تجاري") → اعمل Save لقائمة التشغيل → اعمل Copy للينك والصقه هنا. أي فيديو تضيفه بيتحفظ تلقائيًا في متصفحك ويفضل موجود حتى لو قفلت المنصة.</div>
+  </section>
+</main>
+
+<footer>صُنع بحب من أجل طلاب التعليم الفني في مصر 🇪🇬 — كل اللي تضيفه بيتخزن محليًا على جهازك بس.</footer>
+
+<script>
+/* ================= البيانات ================= */
+const SEED = {
+  "mech-auto": [{id:"2spoXYQ0ZGE", title:"كهرباء الصف الثالث الثانوي الفني — الأنظمة الكهربائية للجرارات والمعدات الثقيلة (موتور الت starter)"}],
+};
+const DEPARTMENTS = [
+ {id:"industrial", ic:"🏭", name:"الثانوية الصناعية", desc:"علمي رياضة — 5 سنوات نظام السنوات، أو 3 سنوات نظام 3+2، وشهادته معادلة للثانوية العامة.",
+  specs:[
+   {id:"mech-prod", ic:"⚙️", name:"ميكانيكا — إنتاج وتشغيل"},
+   {id:"mech-auto", ic:"🚗", name:"ميكانيكا — كهرباء السيارات والمعدات الثقيلة"},
+   {id:"mech-refr", ic:"❄️", name:"تبريد وتكييف"},
+   {id:"elec-power", ic:"⚡", name:"كهرباء — قوى وآلات"},
+   {id:"elec-comm", ic:"📡", name:"كهرباء — إلكترونيات واتصالات"},
+   {id:"itc", ic:"💻", name:"حاسبات وتكنولوجيا المعلومات"},
+   {id:"civil", ic:"🏗️", name:"تشييد وبناء"},
+   {id:"med-dev", ic:"🩺", name:"أجهزة طبية"},
+   {id:"renew", ic:"🌞", name:"طاقة جديدة ومتجددة"},
+  ]},
+ {id:"commercial", ic:"📊", name:"الثانوية التجارية (إدارة أعمال)", desc:"نظام 5 سنوات أو 3 سنوات، ومقرراته بتأهلك لسوق العمل في المحاسبة والتسويق والإدارة.",
+  specs:[
+   {id:"acc", ic:"🧾", name:"محاسبة مالية وتكاليف"},
+   {id:"bus-adm", ic:"📈", name:"إدارة أعمال"},
+   {id:"mkt", ic:"🛒", name:"تسويق"},
+   {id:"secr", ic:"🗂️", name:"سكرتارية ولغة إنجليزية"},
+   {id:"eco", ic:"💹", name:"اقتصاد وإحصاء"},
+  ]},
+ {id:"agricultural", ic:"🌾", name:"الثانوية الزراعية", desc:"تخصصات الزراعة الحديثة: إنتاج نباتي وحيواني وبساتين وأراضي ومياه.",
+  specs:[
+   {id:"crop", ic:"🌱", name:"إنتاج نباتي"},
+   {id:"animal", ic:"🐄", name:"إنتاج حيواني وألبان"},
+   {id:"horti", ic:"🌳", name:"بساتين وخضر ومحاصيل حقلية"},
+   {id:"land", ic:"💧", name:"أراضي ومياه"},
+  ]},
+ {id:"tourism", ic:"🏨", name:"الثانوية السياحية والفندقية", desc:"تأهيل مباشر لفنادق مصر — سياحة وفنادق وفنون مطبخ وجودوة واستقبال.",
+  specs:[
+   {id:"hotels", ic:"🏨", name:"سياحة وفنادق"},
+   {id:"kitchen", ic:"👨‍🍳", name:"فنون مطبخ"},
+   {id:"guid", ic:"🗺️", name:"إرشاد سياحي"},
+   {id:"front", ic:"🛎️", name:"استقبال وخدمة عملاء"},
+   {id:"house", ic:"🧹", name:"جودوة (خدمة الغرف)"},
+  ]},
+ {id:"nursing", ic:"🩹", name:"الثانوية الصحية — تمريض", desc:"تخصص تمريض بشهادة معتمدة للعمل في المستشفيات ومراكز الرعاية.",
+  specs:[
+   {id:"nurse", ic:"💉", name:"علوم التمريض والرعاية الصحية"},
+  ]},
+ {id:"general", ic:"📚", name:"المواد العامة (لكل الأقسام)", desc:"رياضيات وفيزياء ولغة إنجليزية ومواد الثقافة العامة لجميع شعب الدبلومات الفنية.",
+  specs:[
+   {id:"math", ic:"➗", name:"رياضيات الدبلومات الفنية"},
+   {id:"phys", ic:"🔭", name:"فيزياء (للصناعي)"},
+   {id:"eng", ic:"🔤", name:"لغة إنجليزية فنية"},
+  ]},
+];
+const GRADES = ["كل الصفوف","الأول الفني","الثاني الفني","الثالث الفني"];
+
+/* ================= الحالة ================= */
+let store = JSON.parse(localStorage.getItem("tep_v1")||"{}");
+let curDept=null, curSpec=null, curGrade=0, curIdx=-1;
+const save = ()=>localStorage.setItem("tep_v1", JSON.stringify(store));
+const userItems = id => (store[id]||[]);
+const allItems = id => [...(SEED[id]||[]), ...userItems(id)];
+
+/* ================= عرض ================= */
+function goHome(){show("home");renderHome(document.getElementById("q").value)}
+function goDept(){show("deptView");renderDept(curDept)}
+function show(id){["home","deptView","classView"].forEach(s=>document.getElementById(s).classList.toggle("hidden",s!==id))}
+window.scrollTo({top:0});
+
+function esc(s){return s.replace(/[&<>"]/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c]))}
+
+function renderHome(q=""){
+  q=q.trim();
+  const grid=document.getElementById("deptGrid");grid.innerHTML="";
+  let totalSpecs=0,totalVids=0;
+  DEPARTMENTS.forEach(d=>{
+    totalSpecs+=d.specs.length;
+    d.specs.forEach(s=>totalVids+=allItems(s.id).length);
+    if(q && !d.name.includes(q) && !d.specs.some(s=>s.name.includes(q))) return;
+    const el=document.createElement("div");el.className="dept";
+    el.innerHTML=`<div class="ic">${d.ic}</div><h3>${esc(d.name)}</h3><p>${esc(d.desc)}</p>
+      <div class="tags">${d.specs.slice(0,4).map(s=>`<span>${esc(s.name)}</span>`).join("")}${d.specs.length>4?`<span>+${d.specs.length-4}</span>`:""}</div>
+      <span class="arrow">←</span>`;
+    el.onclick=()=>{curDept=d.id;renderDept(d.id)};grid.appendChild(el);
+  });
+  document.getElementById("stDepts").textContent=DEPARTMENTS.length;
+  document.getElementById("stSpecs").textContent=totalSpecs;
+  document.getElementById("stVids").textContent=totalVids;
+  if(!grid.children.length)grid.innerHTML=`<div class="empty">لا توجد نتائج لـ "<b>${esc(q)}</b>"</div>`;
+}
+
+function renderDept(id){
+  const d=DEPARTMENTS.find(x=>x.id===id);if(!d)return;
+  show("deptView");
+  document.getElementById("deptTitle").textContent=`${d.ic} ${d.name}`;
+  const tabs=document.getElementById("gradeTabs");tabs.innerHTML="";
+  GRADES.forEach((g,i)=>{const b=document.createElement("button");b.textContent=g;if(i===curGrade)b.classList.add("on");
+    b.onclick=()=>{curGrade=i;renderDept(id)};tabs.appendChild(b)});
+  const grid=document.getElementById("specGrid");grid.innerHTML="";
+  d.specs.forEach(s=>{
+    const n=allItems(s.id).length, el=document.createElement("div");el.className="spec";
+    el.innerHTML=`<div class="ic">${s.ic}</div><h4>${esc(s.name)}</h4><small>${esc(d.name)}</small><span class="count">▶ ${n} عناصر في البلي ليست</span>`;
+    el.onclick=()=>openClass(d,s);grid.appendChild(el);
+  });
+}
+
+function openClass(d,s){
+  curDept=d.id;curSpec=s;curIdx=-1;show("classView");
+  document.getElementById("classTitle").textContent=`${s.ic} ${s.name}`;
+  document.getElementById("yt").src="";document.getElementById("playerEmpty").style.display="flex";
+  renderPlist();
+}
+
+function renderPlist(){
+  const items=allItems(curSpec.id), box=document.getElementById("plist");box.innerHTML="";
+  document.getElementById("plCount").textContent=`(${items.length})`;
+  if(!items.length){box.innerHTML=`<div class="empty">البلي ليست فاضية لسه 🎬<br>ضيف أول فيديو أو قائمة تشغيل من يوتيوب بالأسفل</div>`;return}
+  items.forEach((it,i)=>{
+    const isPl=!!it.list;
+    const el=document.createElement("div");el.className="pitem"+(i===curIdx?" active":"");
+    el.innerHTML=`<span class="num">${isPl?"🎞️":i+1}</span><span class="t">${esc(it.title)}<br><small style="color:var(--muted)">${isPl?"قائمة تشغيل كاملة":"فيديو"}</small></span><span class="ext">↗</span>`;
+    el.onclick=()=>play(i);
+    el.ondblclick=()=>window.open(isPl?`https://www.youtube.com/playlist?list=${it.list}`:`https://www.youtube.com/watch?v=${it.id}`,"_blank");
+    box.appendChild(el);
+  });
+}
+
+function play(i){
+  const items=allItems(curSpec.id), it=items[i];if(!it)return;
+  curIdx=i;
+  const ids=items.filter(x=>!x.list).map(x=>x.id);
+  let src;
+  if(it.list) src=`https://www.youtube.com/embed/videoseries?list=${it.list}&rel=0`;
+  else{
+    const rest=ids.filter(id=>id!==it.id);
+    src=`https://www.youtube.com/embed/${it.id}?rel=0`+(rest.length?`&playlist=${rest.join(",")}`:"");
+  }
+  document.getElementById("yt").src=src;
+  document.getElementById("playerEmpty").style.display="none";
+  renderPlist();
+  document.querySelector(".player-wrap").scrollIntoView({behavior:"smooth",block:"nearest"});
+}
+
+/* ================= إضافة روابط ================= */
+function extractVideo(url){
+  const m=url.match(/(?:youtube\.com\/(?:watch\?[^#]*v=|shorts\/|embed\/|live\/)|youtu\.be\/)([A-Za-z0-9_-]{11})/);
+  return m?m[1]:null;
+}
+function extractList(url){
+  const m=url.match(/[?&]list=([A-Za-z0-9_-]+)/);return m?m[1]:null;
+}
+function setMsg(t,ok){const m=document.getElementById("addMsg");m.textContent=t;m.className="msg "+(ok?"ok":"err");if(ok)setTimeout(()=>{m.textContent=""},3500)}
+
+function addVideo(){
+  const inp=document.getElementById("vidUrl"),url=inp.value.trim();
+  const id=extractVideo(url);
+  if(!id)return setMsg("❌ اللينك ده مش شكله فيديو يوتيوب صحيح",false);
+  const lid=extractList(url);
+  if(lid){ // رابط Watch جواه قائمة → نضيف القائمة
+    return addPlaylistTo(lid,"قائمة تشغيل من يوتيوب"), inp.value="", setMsg("✅ اتضافت كقائمة تشغيل!",true);
+  }
+  const items=userItems(curSpec.id);
+  if(items.some(x=>x.id===id)||(SEED[curSpec.id]||[]).some(x=>x.id===id))return setMsg("⚠️ الفيديو ده موجود بالفعل في البلي ليست",false);
+  let title="فيديو من يوتيوب";
+  try{const u=new URL(url);const t=u.searchParams.get("t");title=t?decodeURIComponent(t):"فيديو من يوتيوب"}catch(e){}
+  store[curSpec.id]=[...items,{id,title}];save();inp.value="";
+  setMsg("✅ اتضاف الفيديو واشتغل دلوقتي!",true);
+  renderPlist();play(allItems(curSpec.id).length-1);
+}
+
+function addPlaylist(){
+  const inp=document.getElementById("plUrl"),url=inp.value.trim();
+  const lid=extractList(url);
+  if(!lid)return setMsg("❌ ده مش لينك قائمة تشغيل (لازم يحتوي على list=PL...)",false);
+  const ok=addPlaylistTo(lid,"قائمة تشغيل من يوتيوب");
+  if(ok){inp.value="";setMsg("✅ اتضافت القائمة — اضغط عليها عشان تشتغل جوه المنصة",true)}
+}
+function addPlaylistTo(lid,title){
+  const items=userItems(curSpec.id);
+  if(items.some(x=>x.list===lid)||(SEED[curSpec.id]||[]).some(x=>x.list===lid)){setMsg("⚠️ القائمة دي موجودة بالفعل",false);return false}
+  store[curSpec.id]=[...items,{list:lid,title}];save();renderPlist();return true;
+}
+
+/* تشغيل أول مرة */
+renderHome();
+</script>
+</body>
+</html>'''
+
+import os
+os.makedirs('/mnt/agents/output', exist_ok=True)
+with open('/mnt/agents/output/منصة_التعليم_الفني_المصري.html', 'w', encoding='utf-8') as f:
+    f.write(html)
+print("done", len(html), "chars")
 /* ===== الإحصائيات ===== */
 .stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:1rem;margin-bottom:1.5rem}
 .stat-card{background:#fff;border-radius:var(--r);padding:1.2rem;box-shadow:var(--shadow-sm);display:flex;align-items:center;gap:.9rem;border-top:4px solid var(--primary)}
